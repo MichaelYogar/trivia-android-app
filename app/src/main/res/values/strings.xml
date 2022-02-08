@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MovieTrivia</string>
+    <string name="movie_trivia">Movie Trivia</string>
+    <string name="card_title_text">Welcome</string>
+    <string name="card_subtitle_text">Please enter your name</string>
+    <string name="name_hint">Name</string>
+    <string name="button_text">Start</string>
 </resources>
