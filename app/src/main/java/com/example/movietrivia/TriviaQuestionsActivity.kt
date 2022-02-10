@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -21,11 +22,13 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var option4: TextView
     private lateinit var tvProgress: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var btnSubmit: Button
 
     private lateinit var questionList: List<Question>
-    private var curSelected: Int = 1
-    private var curPosition = 1
-
+    private var questionNumber = 1
+    private var selectedIndex = -1
+    private var selectedOption: TextView? = null
+    private var totalCorrect = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +40,9 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         option4 = findViewById(R.id.tv_option_four)
         tvProgress = findViewById(R.id.tv_progress)
         progressBar = findViewById(R.id.progress_bar)
+        btnSubmit = findViewById(R.id.btn_submit)
         lifecycleScope.launch {
             questionList = apiCall()
-            Log.d("TriviaQuestionsActivity", questionList.size.toString())
             setQuestion()
             setListeners()
         }
@@ -50,14 +53,19 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setQuestion() {
-        question.text = questionList[0].question
-        option1.text = questionList[0].answers[0]
-        option2.text = questionList[0].answers[1]
-        option3.text = questionList[0].answers[2]
-        option4.text = questionList[0].answers[3]
-        tvProgress.text = "$curPosition" + "/" + progressBar.max
-        progressBar.progress = 1
-        setDefaultOptionsView()
+        if (questionNumber <= questionList.size){
+            question.text = questionList[questionNumber - 1].question
+            option1.text = questionList[questionNumber - 1].answers[0]
+            option2.text = questionList[questionNumber - 1].answers[1]
+            option3.text = questionList[questionNumber - 1].answers[2]
+            option4.text = questionList[questionNumber - 1].answers[3]
+            tvProgress.text = "$questionNumber" + "/" + progressBar.max
+            progressBar.progress = questionNumber
+            setDefaultOptionsView()
+        }else{
+            Log.d("TriviaQuestionsActivity", "I get here")
+            btnSubmit.text = "Finished"
+        }
     }
 
     private fun setDefaultOptionsView() {
@@ -81,36 +89,68 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         option2.setOnClickListener(this)
         option3.setOnClickListener(this)
         option4.setOnClickListener(this)
+        btnSubmit.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tv_option_one -> {
-                selectedOptionView(option1, 1)
+                selectedOptionView(option1, 0)
             }
             R.id.tv_option_two -> {
-                selectedOptionView(option2, 2)
+                selectedOptionView(option2, 1)
             }
             R.id.tv_option_three -> {
-                selectedOptionView(option3, 3)
+                selectedOptionView(option3, 2)
             }
             R.id.tv_option_four -> {
-                selectedOptionView(option4, 4)
+                selectedOptionView(option4, 3)
+            }
+            R.id.btn_submit -> {
+
+                if (selectedIndex == -1) {
+                    questionNumber++
+                    btnSubmit.text = "Submit"
+                    setQuestion()
+                } else {
+                    // Check correct answer
+                    val currentQuestion: Question = questionList[questionNumber - 1]
+                    if (currentQuestion.correctAnswer == currentQuestion.answers[selectedIndex]) {
+                        selectedOption!!.setTextColor(Color.parseColor("#000000"))
+                        selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
+                        selectedOption!!.background = ContextCompat.getDrawable(
+                            this, R.drawable.correct_option_bg
+                        )
+                        totalCorrect++
+                    } else {
+                        selectedOption!!.setTextColor(Color.parseColor("#000000"))
+                        selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
+                        selectedOption!!.background = ContextCompat.getDrawable(
+                            this, R.drawable.incorrect_option_bg
+                        )
+                    }
+
+                    // Reset value for next question
+                    selectedIndex = -1
+
+                    // Update button text for next question
+                    btnSubmit.text = "Next Question"
+                }
+
             }
         }
-
     }
 
     private fun selectedOptionView(tv: TextView, selectedOptionNumber: Int) {
         // Reset selection when user clicks another option
         setDefaultOptionsView()
-        curSelected = selectedOptionNumber
+        // Option that user chose
+        selectedIndex = selectedOptionNumber
+        selectedOption = tv
         tv.setTextColor(Color.parseColor("#000000"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(
             this, R.drawable.selected_option_bg
         )
     }
-
-
 }
