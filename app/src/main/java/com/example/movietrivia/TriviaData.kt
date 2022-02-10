@@ -11,21 +11,34 @@ import kotlin.coroutines.suspendCoroutine
 
 private const val URL_PATH = "https://opentdb.com/api.php?amount=10&category=11&type=multiple"
 
-class TriviaData(val ctx: Context) {
+class TriviaData(private val ctx: Context) {
+
     suspend fun getTriviaQuestions() = suspendCoroutine<List<Question>> { cont ->
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, URL_PATH, null,
             {
                 val results: JSONArray = it.getJSONArray("results")
-                val questions: MutableList<Question> = mutableListOf()
+                val questions: ArrayList<Question> = ArrayList()
                 for (i in 0 until results.length()) {
+                    val answers: ArrayList<String> = ArrayList()
                     val item = results.getJSONObject(i)
-                    val questionString : String = HtmlCompat.fromHtml(
-                        item.getString("question"),
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    ).toString()
+                    val correctAnswer: String = item["correct_answer"] as String
+                    val incorrectAnswers = item.getJSONArray("incorrect_answers")
+                    val question: String = htmlToString(item.getString("question"))
 
-                    questions.add(Question(question = questionString))
+                    answers.add(htmlToString(correctAnswer))
+                    for (j in 0 until incorrectAnswers.length()) {
+                        answers.add(htmlToString(incorrectAnswers[j] as String))
+                    }
+
+                    answers.shuffle()
+                    questions.add(
+                        Question(
+                            question = question,
+                            correctAnswer = correctAnswer,
+                            answers = answers
+                        )
+                    )
                 }
                 cont.resume(questions.toList())
             },
@@ -34,6 +47,13 @@ class TriviaData(val ctx: Context) {
             }
         )
         TriviaManager.getInstance(ctx).addToRequestQueue(jsonObjectRequest)
+    }
+
+    private fun htmlToString(html: String): String {
+        return HtmlCompat.fromHtml(
+            html,
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        ).toString()
     }
 
 }
