@@ -129,15 +129,13 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         // Check correct answer
                         val currentQuestion: Question = questionList[questionNumber - 1]
                         if (currentQuestion.correctAnswer == currentQuestion.answers[selectedIndex]) {
-                            selectedOption!!.setTextColor(Color.parseColor("#000000"))
-                            selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
+                            selectedOption!!.setTextColor(Color.parseColor("#ffffff"))
                             selectedOption!!.background = ContextCompat.getDrawable(
                                 this, R.drawable.correct_option_bg
                             )
                             totalCorrect++
                         } else {
                             selectedOption!!.setTextColor(Color.parseColor("#000000"))
-                            selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
                             selectedOption!!.background = ContextCompat.getDrawable(
                                 this, R.drawable.incorrect_option_bg
                             )
@@ -161,7 +159,7 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         // Option that user chose
         selectedIndex = selectedOptionNumber
         selectedOption = tv
-        tv.setTextColor(Color.parseColor("#000000"))
+        tv.setTextColor(Color.parseColor("#4c63e8"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(
             this, R.drawable.selected_option_bg

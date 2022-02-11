@@ -19,6 +19,7 @@
         <activity
             android:name=".TriviaQuestionsActivity"
             android:exported="true"
+            android:theme="@style/Theme.NoActionbar" />
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

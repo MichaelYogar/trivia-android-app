@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="@string/movie_trivia"
-        android:textColor="@color/text_color"
+        android:textColor="@color/text_default_color"
         android:textSize="50sp" />
 
     <androidx.cardview.widget.CardView
