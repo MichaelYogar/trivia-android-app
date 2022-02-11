@@ -52,7 +52,7 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private suspend fun apiCall(): List<Question> {
-        return TriviaData(this).getTriviaQuestions()
+        return TriviaDataService(this).getTriviaQuestions()
     }
 
     private fun setQuestions() {

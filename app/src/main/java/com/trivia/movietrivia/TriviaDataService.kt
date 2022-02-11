@@ -11,7 +11,7 @@ import kotlin.coroutines.suspendCoroutine
 
 private const val URL_PATH = "https://opentdb.com/api.php?amount=10&category=11&type=multiple"
 
-class TriviaData(private val ctx: Context) {
+class TriviaDataService(private val ctx: Context) {
 
     suspend fun getTriviaQuestions() = suspendCoroutine<List<Question>> { cont ->
         val jsonObjectRequest = JsonObjectRequest(
