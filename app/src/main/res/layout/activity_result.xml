@@ -10,21 +10,14 @@
 
 
     <TextView
+        android:id="@+id/tv_result_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/tv_result"
+        android:text="@string/tv_result_title"
         android:textAlignment="center"
-        android:textColor="@color/white" />
-
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        tools:text="YOUR NAME"
-        android:textAlignment="center"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="30sp" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -37,14 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        tools:text="YOUR SCORE"
         android:textAlignment="center"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        tools:text="YOUR SCORE" />
 
     <Button
         android:id="@+id/btn_play_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play Again?" />
+        android:backgroundTint="@color/btn_color"
+        android:text="@string/btn_result" />
 
 </LinearLayout>

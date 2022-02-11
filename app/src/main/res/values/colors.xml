@@ -11,4 +11,5 @@
     <color name="text_choice_color">#4c63e8</color>
     <color name="text_color_card">#000</color>
     <color name="background_color">#378df2</color>
+    <color name="btn_color">#4c63e8</color>
 </resources>

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="20sp"
             tools:text="Hello World" />
 
         <LinearLayout
@@ -103,6 +103,7 @@
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/btn_color"
             android:text="Submit" />
 
 

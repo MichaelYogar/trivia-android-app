@@ -5,5 +5,6 @@
     <string name="card_subtitle_text">Please enter your name</string>
     <string name="name_hint">Name</string>
     <string name="button_text">Start</string>
-    <string name="tv_result">Result</string>
+    <string name="tv_result_title">Congratulations</string>
+    <string name="btn_result">Play Again?</string>
 </resources>
