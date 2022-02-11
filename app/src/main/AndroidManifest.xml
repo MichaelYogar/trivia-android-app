@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.movietrivia">
+    package="com.trivia.movietrivia">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,17 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieTrivia">
         <activity
-            android:name=".ResultActivity"
+            android:name="com.trivia.movietrivia.ResultActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionbar" />
         <activity
-            android:name=".TriviaQuestionsActivity"
+            android:name="com.trivia.movietrivia.TriviaQuestionsActivity"
             android:exported="true"
             android:theme="@style/Theme.NoActionbar" />
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.trivia.movietrivia.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionbar"

@@ -1,4 +1,4 @@
-package com.example.movietrivia
+package com.trivia.movietrivia
 
 data class Question(
     val question: String,

@@ -1,4 +1,4 @@
-package com.example.movietrivia
+package com.trivia.movietrivia
 
 import android.content.Context
 import android.util.Log
