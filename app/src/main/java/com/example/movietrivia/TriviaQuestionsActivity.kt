@@ -1,5 +1,6 @@
 package com.example.movietrivia
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -29,21 +30,23 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var selectedIndex = -1
     private var selectedOption: TextView? = null
     private var totalCorrect = 0
+    private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trivia_questions)
+        username = intent.getStringExtra("username")
         question = findViewById(R.id.tv_question)
         option1 = findViewById(R.id.tv_option_one)
         option2 = findViewById(R.id.tv_option_two)
         option3 = findViewById(R.id.tv_option_three)
         option4 = findViewById(R.id.tv_option_four)
-        tvProgress = findViewById(R.id.tv_progress)
-        progressBar = findViewById(R.id.progress_bar)
+        tvProgress = findViewById(R.id.tv_progress_bar)
+        progressBar = findViewById(R.id.pg_progress_bar)
         btnSubmit = findViewById(R.id.btn_submit)
         lifecycleScope.launch {
             questionList = apiCall()
-            setQuestion()
+            setQuestions()
             setListeners()
         }
     }
@@ -52,8 +55,8 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         return TriviaData(this).getTriviaQuestions()
     }
 
-    private fun setQuestion() {
-        if (questionNumber <= questionList.size){
+    private fun setQuestions() {
+        if (questionNumber <= questionList.size) {
             question.text = questionList[questionNumber - 1].question
             option1.text = questionList[questionNumber - 1].answers[0]
             option2.text = questionList[questionNumber - 1].answers[1]
@@ -62,9 +65,9 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             tvProgress.text = "$questionNumber" + "/" + progressBar.max
             progressBar.progress = questionNumber
             setDefaultOptionsView()
-        }else{
-            Log.d("TriviaQuestionsActivity", "I get here")
+        } else {
             btnSubmit.text = "Finished"
+            selectedIndex = questionList.size + 1
         }
     }
 
@@ -108,33 +111,44 @@ class TriviaQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_submit -> {
 
-                if (selectedIndex == -1) {
-                    questionNumber++
-                    btnSubmit.text = "Submit"
-                    setQuestion()
-                } else {
-                    // Check correct answer
-                    val currentQuestion: Question = questionList[questionNumber - 1]
-                    if (currentQuestion.correctAnswer == currentQuestion.answers[selectedIndex]) {
-                        selectedOption!!.setTextColor(Color.parseColor("#000000"))
-                        selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
-                        selectedOption!!.background = ContextCompat.getDrawable(
-                            this, R.drawable.correct_option_bg
-                        )
-                        totalCorrect++
-                    } else {
-                        selectedOption!!.setTextColor(Color.parseColor("#000000"))
-                        selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
-                        selectedOption!!.background = ContextCompat.getDrawable(
-                            this, R.drawable.incorrect_option_bg
-                        )
+                when (selectedIndex) {
+                    -1 -> {
+                        questionNumber++
+                        btnSubmit.text = "Submit"
+                        setQuestions()
                     }
+                    questionList.size + 1 -> {
+                        val intent = Intent(this, ResultActivity::class.java)
+                        intent.putExtra("username", username)
+                        intent.putExtra("score", totalCorrect.toString())
+                        Log.d("TriviaQuestionsActivity", username!!)
+                        startActivity(intent)
+                        finish()
+                    }
+                    else -> {
+                        // Check correct answer
+                        val currentQuestion: Question = questionList[questionNumber - 1]
+                        if (currentQuestion.correctAnswer == currentQuestion.answers[selectedIndex]) {
+                            selectedOption!!.setTextColor(Color.parseColor("#000000"))
+                            selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
+                            selectedOption!!.background = ContextCompat.getDrawable(
+                                this, R.drawable.correct_option_bg
+                            )
+                            totalCorrect++
+                        } else {
+                            selectedOption!!.setTextColor(Color.parseColor("#000000"))
+                            selectedOption!!.setTypeface(selectedOption!!.typeface, Typeface.BOLD)
+                            selectedOption!!.background = ContextCompat.getDrawable(
+                                this, R.drawable.incorrect_option_bg
+                            )
+                        }
 
-                    // Reset value for next question
-                    selectedIndex = -1
+                        // Reset value for next question
+                        selectedIndex = -1
 
-                    // Update button text for next question
-                    btnSubmit.text = "Next Question"
+                        // Update button text for next question
+                        btnSubmit.text = "Next Question"
+                    }
                 }
 
             }

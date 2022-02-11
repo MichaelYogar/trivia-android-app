@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Hello World"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:text="Hello World" />
 
         <LinearLayout
             android:id="@+id/ll_progress_bar"
@@ -29,7 +29,7 @@
             android:orientation="horizontal">
 
             <ProgressBar
-                android:id="@+id/progress_bar"
+                android:id="@+id/pg_progress_bar"
                 style="?android:progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:progress="0" />
 
             <TextView
-                android:id="@+id/tv_progress"
+                android:id="@+id/tv_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
